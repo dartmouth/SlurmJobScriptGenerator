@@ -44,7 +44,7 @@ var BYUScriptGen = function(div) {
 	this.formrows = [];
 	this.settings = {
 		// script_formats = [ ["htmlname1", "Text1"], ["htmlname2", "Text2"], ... ]
-		script_formats : [ ["slurm", "Slurm"], ["pbs", "PBS"] ], // first is default
+		script_formats : [ ["slurm", "Slurm"] ], // first is default
 		defaults : {
 			email_address : "myemail@example.com", //example.com should be blackholed
 		},
@@ -530,10 +530,13 @@ BYUScriptGen.prototype.init = function() {
 	this.containerDiv.appendChild(scriptHeader);
 
 	this.scriptFormatSelectorDiv = document.createElement("div");
+	// this.scriptFormatSelectorDiv.setAttribute('style', 'display: none');
 	this.scriptFormatSelectorDiv.id = "byu_sg_script_format_selector_container";
 	this.script_format_selector = this.newSelect({ options : this.settings.script_formats });
 	this.script_format_selector.id = "byu_sg_script_format_selector";
-	this.containerDiv.appendChild(this.newSpan("byu_sg_script_format_selector_container", "Script format:", this.script_format_selector));
+	this.mySpan = this.newSpan("byu_sg_script_format_selector_container", "Script format:", this.script_format_selector);
+	this.mySpan.setAttribute('style', 'display: none');
+	this.containerDiv.appendChild(this.mySpan);
 
 	this.form = this.createForm();
 	this.inputDiv.appendChild(this.form);
