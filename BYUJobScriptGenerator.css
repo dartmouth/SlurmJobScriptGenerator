@@ -17,6 +17,8 @@
 #byu_sg_jobscript {
 	/*background-color: #e2e2e2;*/
 	background-color: #eee;
+	width: 50%;
+	float: left;
 }
 
 #byu_sg_input_container td,th {

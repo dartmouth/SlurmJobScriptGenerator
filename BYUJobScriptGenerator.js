@@ -524,13 +524,13 @@ BYUScriptGen.prototype.init = function() {
 	this.inputDiv.id = "byu_sg_input_container";
 	this.containerDiv.appendChild(this.inputDiv);
 
-	var scriptHeader = document.createElement("h1");
-	scriptHeader.id = "byu_sg_script_header";
-	scriptHeader.appendChild(document.createTextNode("Job Script"));
-	this.containerDiv.appendChild(scriptHeader);
+	// var scriptHeader = document.createElement("h1");
+	// scriptHeader.id = "byu_sg_script_header";
+	// scriptHeader.appendChild(document.createTextNode("Job Script"));
+	// this.containerDiv.appendChild(scriptHeader);
 
-	this.scriptFormatSelectorDiv = document.createElement("div");
-	this.scriptFormatSelectorDiv.id = "byu_sg_script_format_selector_container";
+	// this.scriptFormatSelectorDiv = document.createElement("div");
+	// this.scriptFormatSelectorDiv.id = "byu_sg_script_format_selector_container";
 	this.script_format_selector = this.newSelect({ options : this.settings.script_formats });
 	this.script_format_selector.id = "byu_sg_script_format_selector";
 	this.containerDiv.appendChild(this.newSpan("byu_sg_script_format_selector_container", "Script format:", this.script_format_selector));
@@ -560,5 +560,10 @@ BYUScriptGen.prototype.toJobScript = function() {
 			scr = this.generateScriptPBS();
 			break;
 	}
-	this.jobScriptDiv.innerHTML = "<pre>" + scr + "</pre>";
+	this.jobScriptDiv.innerHTML = "<textarea readonly rows=15 cols=60>" + scr + "</textarea>";
+};
+
+document.querySelector("copyButton").onclick = function(){
+	document.querySelector("textarea").select();
+	document.navigator.clipboard.writeText();
 };
