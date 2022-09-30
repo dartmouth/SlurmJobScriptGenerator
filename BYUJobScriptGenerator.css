@@ -17,7 +17,7 @@
 #byu_sg_jobscript {
 	/*background-color: #e2e2e2;*/
 	background-color: #eee;
-	width: 50%;
+	width: 49%;
 	float: left;
 }
 
@@ -30,6 +30,9 @@
 /*	background-color: #e2e2e2;*/
 	border:1px solid #ccc;
 	margin:0 0 1em;
+	width: 50%;
+	float: left;
+
 }
 
 #byu_sg_input_container th {
@@ -46,9 +49,10 @@
 }
 
 #byu_sg_input_container td {
-	width: 40%;
+	width: 20%;
 	max-width: 750px;
 	border: 1px solid #ccc;
+		
 }
 #byu_sg_input_container td + td {
 	width: 60%;

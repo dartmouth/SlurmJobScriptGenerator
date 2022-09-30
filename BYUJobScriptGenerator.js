@@ -535,7 +535,7 @@ BYUScriptGen.prototype.init = function() {
 	this.script_format_selector = this.newSelect({ options : this.settings.script_formats });
 	this.script_format_selector.id = "byu_sg_script_format_selector";
 	this.mySpan = this.newSpan("byu_sg_script_format_selector_container", "Script format:", this.script_format_selector);
-	this.mySpan.setAttribute('style', 'display: none');
+	 this.mySpan.setAttribute('style', 'display: none');
 	this.containerDiv.appendChild(this.mySpan);
 
 	this.form = this.createForm();
@@ -570,3 +570,15 @@ document.querySelector("copyButton").onclick = function(){
 	document.querySelector("textarea").select();
 	document.navigator.clipboard.writeText();
 };
+
+function emailAddressChange(){
+	//alert(document.getElementById('email_input').disabled)
+	if (document.getElementById('email_input').disabled){
+		document.getElementById('email_input').disabled = false
+	} 
+	else{
+		document.getElementById('email_input').disabled = true
+	}
+
+
+}

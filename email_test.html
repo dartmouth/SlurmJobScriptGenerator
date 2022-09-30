@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	
+	<meta charset="utf-8">
+	<title>Job Script Generator</title>
+	<link rel="stylesheet" type="text/css" href="BYUJobScriptGenerator.css">
+	<script type="text/javascript" src="BYUJobScriptGenerator.js"></script>
+</head>
+<body>
+<table style ="border:1px solid" >
+<tr>
+	<td>
+		email_address
+	</td>
+	<td>
+		
+		<input type="radio" id="own" name="fav_language" value="own" checked onclick="emailAddressChange()" >
+		<label for="own">Use my email address</label><br>
+		<input type="radio" id="alternate" name="fav_language" value="alternate" onclick="emailAddressChange()" >
+		<label for="alternate">Use alternate email address</label><br>
+		<input type="text" disabled id ="email_input">
+	</td>
+</tr>
+</table>
+</body>
+</html>
