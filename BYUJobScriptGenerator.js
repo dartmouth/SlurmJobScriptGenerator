@@ -196,7 +196,18 @@ BYUScriptGen.prototype.createForm = function(doc) {
 	this.inputs.email_begin = this.newCheckbox({checked:0});
 	this.inputs.email_end = this.newCheckbox({checked:0});
 	this.inputs.email_abort = this.newCheckbox({checked:0});
-	this.inputs.email_address = this.newInput({value:this.settings.defaults.email_address});
+	//this.inputs.email_address = this.newInput({value:this.settings.defaults.email_address});
+	this.inputs.email_address = document.createElement('div')
+	this.inputs.email_address.innerHTML=`<input type="radio" id="email_self" name="fav_language" value="email_self" checked onclick="emailAddressChange()" >
+	<label for="own">Use my email address</label>
+	<input type="radio" id="email_alternate" name="fav_language" value="email_alternate" onclick="emailAddressChange()" >
+	<label for="alternate">Use alternate email address</label><br>
+	<input type="text" disabled id ="email_input"></input> `
+	
+	
+
+
+
 
 	table.appendChild(this.returnNewRow("byu_sg_row_onenode", "Limit this job to one node: ", this.inputs.single_node));
 	table.appendChild(this.returnNewRow("byu_sg_row_numcores", "Number of processor cores <b>across all nodes</b>: ", this.inputs.num_cores));
@@ -573,11 +584,11 @@ document.querySelector("copyButton").onclick = function(){
 
 function emailAddressChange(){
 	//alert(document.getElementById('email_input').disabled)
-	if (document.getElementById('email_input').disabled){
-		document.getElementById('email_input').disabled = false
+	if (document.getElementById('email_self').checked){
+		document.getElementById('email_input').disabled = true
 	} 
 	else{
-		document.getElementById('email_input').disabled = true
+		document.getElementById('email_input').disabled = false
 	}
 
 
