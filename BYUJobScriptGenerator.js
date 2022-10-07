@@ -29,126 +29,126 @@ to configure a job scheduler.
 This should integrate easily into any existing website.  Use CSS for styling.
 
 TODO:
-	job arrays
-	tooltip/help for each parameter row
+  job arrays
+  tooltip/help for each parameter row
 
 \*****************************************************************/
 
 
 
 var BYUScriptGen = function(div) {
-	this.values = {};
-	this.containerDiv = div;
-	this.inputs = {};
-	this.inputs.features = {};
-	this.formrows = [];
-	this.settings = {
-		// script_formats = [ ["htmlname1", "Text1"], ["htmlname2", "Text2"], ... ]
-		script_formats : [ ["slurm", "Slurm"] ], // first is default
-		defaults : {
-			email_address : "myemail@example.com", //example.com should be blackholed
-		},
-		qos : {
-			preemptable : "standby",
-			test : "test"
-		},
-		/* You may want to dynamically generate features/partitions. See example HTML file */
-		features : {},
-		features_status : {},
-		partitions : {},
-		partitions_status : {},
-	};
-	return this;
+  this.values = {};
+  this.containerDiv = div;
+  this.inputs = {};
+  this.inputs.features = {};
+  this.formrows = [];
+  this.settings = {
+    // script_formats = [ ["htmlname1", "Text1"], ["htmlname2", "Text2"], ... ]
+    script_formats : [ ["slurm", "Slurm"] ], // first is default
+    defaults : {
+      email_address : "myemail@example.com", //example.com should be blackholed
+    },
+    qos : {
+      preemptable : "standby",
+      test : "test"
+    },
+    /* You may want to dynamically generate features/partitions. See example HTML file */
+    features : {},
+    features_status : {},
+    partitions : {},
+    partitions_status : {},
+  };
+  return this;
 };
 
 BYUScriptGen.prototype.returnNewRow = function (rowid, left, right) {
-	var l, r, tr;
-	l = document.createElement("td");
-	r = document.createElement("td");
-	tr = document.createElement("tr");
-	l.id = rowid + "_left";
-	r.id = rowid + "_right";
-	tr.id = rowid;
-	l.innerHTML = left;
-	r.appendChild(right)
-	tr.appendChild(l);
-	tr.appendChild(r);
-	return tr;
+  var l, r, tr;
+  l = document.createElement("td");
+  r = document.createElement("td");
+  tr = document.createElement("tr");
+  l.id = rowid + "_left";
+  r.id = rowid + "_right";
+  tr.id = rowid;
+  l.innerHTML = left;
+  r.appendChild(right)
+  tr.appendChild(l);
+  tr.appendChild(r);
+  return tr;
 }
 
 BYUScriptGen.prototype.newCheckbox = function(args) {
-	var tthis = this;
-	var newEl = document.createElement("input");
-	newEl.type = "checkbox";
-	var formrows = this.formrows;
-	if(args.checked)
-		newEl.checked = true;
-	if(args.toggle)
-		newEl.onclick = newEl.onchange = function () {
-			formrows[args.toggle].style.display = newEl.checked ? "" : "none";
-			tthis.updateJobscript();
-		};
-	else
-		newEl.onclick = newEl.onchange = function () {
-			tthis.updateJobscript();
-		};
-	return newEl;
+  var tthis = this;
+  var newEl = document.createElement("input");
+  newEl.type = "checkbox";
+  var formrows = this.formrows;
+  if(args.checked)
+    newEl.checked = true;
+  if(args.toggle)
+    newEl.onclick = newEl.onchange = function () {
+      formrows[args.toggle].style.display = newEl.checked ? "" : "none";
+      tthis.updateJobscript();
+    };
+  else
+    newEl.onclick = newEl.onchange = function () {
+      tthis.updateJobscript();
+    };
+  return newEl;
 }
 
 BYUScriptGen.prototype.newInput = function(args) {
-	var tthis = this;
-	var newEl = document.createElement("input");
-	newEl.type = "text";
-	if(args.size)
-		newEl.size = args.size;
-	if(args.maxLength)
-		newEl.maxLength = args.maxLength;
-	if(args.value)
-		newEl.value = args.value;
-	newEl.onclick = newEl.onchange = function () {
-		tthis.updateJobscript();
-	};
-	return newEl;
+  var tthis = this;
+  var newEl = document.createElement("input");
+  newEl.type = "text";
+  if(args.size)
+    newEl.size = args.size;
+  if(args.maxLength)
+    newEl.maxLength = args.maxLength;
+  if(args.value)
+    newEl.value = args.value;
+  newEl.onclick = newEl.onchange = function () {
+    tthis.updateJobscript();
+  };
+  return newEl;
 }
 
 BYUScriptGen.prototype.newSelect = function(args) {
-	var tthis = this;
-	var newEl = document.createElement("select");
-	if(args.options) {
-		for(var i in args.options) {
-			var newOpt = document.createElement("option");
-			newOpt.value = args.options[i][0];
-			newOpt.text = args.options[i][1];
-			if(args.selected && args.selected == args.options[i][0])
-				newOpt.selected = true;
-			newEl.appendChild(newOpt);
-		}
-	}
-	newEl.onclick = newEl.onchange = function () {
-		tthis.updateJobscript();
-	};
-	return newEl;
+  var tthis = this;
+  var newEl = document.createElement("select");
+  if(args.options) {
+    for(var i in args.options) {
+      var newOpt = document.createElement("option");
+      newOpt.value = args.options[i][0];
+      newOpt.text = args.options[i][1];
+      if(args.selected && args.selected == args.options[i][0])
+        newOpt.selected = true;
+      newEl.appendChild(newOpt);
+    }
+  }
+  newEl.onclick = newEl.onchange = function () {
+    tthis.updateJobscript();
+  };
+  return newEl;
 }
 
 BYUScriptGen.prototype.newSpan = function() {
-	var newEl = document.createElement("span");
-	if(arguments[0])
-		newEl.id = arguments[0];
-	for (var i = 1; i < arguments.length; i++) {
-		if(typeof arguments[i] == "string") {
-			newEl.appendChild(document.createTextNode(arguments[i]));
-		} else
-			newEl.appendChild(arguments[i]);
-	}
-	return newEl;
+  var newEl = document.createElement("span");
+  if(arguments[0])
+    newEl.id = arguments[0];
+  for (var i = 1; i < arguments.length; i++) {
+    if(typeof arguments[i] == "string") {
+      newEl.appendChild(document.createTextNode(arguments[i]));
+    } else
+      newEl.appendChild(arguments[i]);
+  }
+  return newEl;
 };
 
 BYUScriptGen.prototype.newA = function(url, body) {
-	var a = document.createElement("a");
-	a.href = url;
-	a.appendChild(document.createTextNode(body));
-	a.target = "_base";
-	return a;
+  var a = document.createElement("a");
+  a.href = url;
+  a.appendChild(document.createTextNode(body));
+  a.target = "_base";
+  return a;
 }
 
 BYUScriptGen.prototype.createForm = function(doc) {
@@ -310,213 +310,213 @@ BYUScriptGen.prototype.createForm = function(doc) {
 }; /* end createForm() */
 
 BYUScriptGen.prototype.retrieveValues = function() {
-	var jobnotes = [];
-	this.values.MB_per_core = Math.round(this.inputs.mem_per_core.value * (this.inputs.mem_units.value =="GB" ? 1024 : 1));
+  var jobnotes = [];
+  this.values.MB_per_core = Math.round(this.inputs.mem_per_core.value * (this.inputs.mem_units.value =="GB" ? 1024 : 1));
 
-	this.values.features = [];
-	for(var i in this.inputs.features) {
-		if(this.inputs.features[i].checked){
-			this.values.features.push(this.inputs.features[i].feature_name);
-		} else {
-		}
-	}
+  this.values.features = [];
+  for(var i in this.inputs.features) {
+    if(this.inputs.features[i].checked){
+      this.values.features.push(this.inputs.features[i].feature_name);
+    } else {
+    }
+  }
 
-	this.values.partitions = [];
-	for(var i in this.inputs.partitions) {
-		if(this.inputs.partitions[i].checked){
-			this.values.partitions.push(this.inputs.partitions[i].partition_name);
-		} else {
-		}
-	}
+  this.values.partitions = [];
+  for(var i in this.inputs.partitions) {
+    if(this.inputs.partitions[i].checked){
+      this.values.partitions.push(this.inputs.partitions[i].partition_name);
+    } else {
+    }
+  }
 
-	this.values.is_test = this.inputs.is_test.checked;
-	this.values.is_preemptable = this.inputs.is_preemptable.checked;
-	this.values.is_requeueable = this.inputs.is_requeueable && this.inputs.is_requeueable.checked;
-	this.values.walltime_in_minutes = this.inputs.wallhours.value * 3600 + this.inputs.wallmins.value * 60;
-	this.values.num_cores = this.inputs.num_cores.value;
-	if(this.inputs.single_node.checked)
-		this.values.nodes = 1;
-	this.values.gpus = this.inputs.num_gpus.value
-	this.values.job_name = this.inputs.job_name.value;
-	this.values.sendemail = {};
-	this.values.sendemail.begin = this.inputs.email_begin.checked;
-	this.values.sendemail.end = this.inputs.email_end.checked;
-	this.values.sendemail.abort = this.inputs.email_abort.checked;
-	this.values.email_address = this.inputs.email_address.value;
+  this.values.is_test = this.inputs.is_test.checked;
+  this.values.is_preemptable = this.inputs.is_preemptable.checked;
+  this.values.is_requeueable = this.inputs.is_requeueable && this.inputs.is_requeueable.checked;
+  this.values.walltime_in_minutes = this.inputs.wallhours.value * 3600 + this.inputs.wallmins.value * 60;
+  this.values.num_cores = this.inputs.num_cores.value;
+  if(this.inputs.single_node.checked)
+    this.values.nodes = 1;
+  this.values.gpus = this.inputs.num_gpus.value
+  this.values.job_name = this.inputs.job_name.value;
+  this.values.sendemail = {};
+  this.values.sendemail.begin = this.inputs.email_begin.checked;
+  this.values.sendemail.end = this.inputs.email_end.checked;
+  this.values.sendemail.abort = this.inputs.email_abort.checked;
+  this.values.email_address = this.inputs.email_address.value;
 
-	/* Add warnings, etc. to jobnotes array */
-	if(this.values.MB_per_core > 20*1024*1024)
-		jobnotes.push("Are you crazy? That is way too much RAM!");
-	if(this.values.walltime_in_minutes > 86400*7)
-		jobnotes.push("Global maximum walltime is 7 days");
-	if(this.values.walltime_in_minutes > 86400*3 && this.values.partitions.indexOf("p2") > -1)
-		jobnotes.push("Partition p2 maximum walltime is 3 days");
-	if(this.values.MB_per_core > 24*1024 && this.values.partitions.indexOf("p1") > -1)
-		jobnotes.push("Partition p1 nodes have 24 GB of RAM. You want more than that per core");
+  /* Add warnings, etc. to jobnotes array */
+  if(this.values.MB_per_core > 20*1024*1024)
+    jobnotes.push("Are you crazy? That is way too much RAM!");
+  if(this.values.walltime_in_minutes > 86400*7)
+    jobnotes.push("Global maximum walltime is 7 days");
+  if(this.values.walltime_in_minutes > 86400*3 && this.values.partitions.indexOf("p2") > -1)
+    jobnotes.push("Partition p2 maximum walltime is 3 days");
+  if(this.values.MB_per_core > 24*1024 && this.values.partitions.indexOf("p1") > -1)
+    jobnotes.push("Partition p1 nodes have 24 GB of RAM. You want more than that per core");
 
-	this.jobNotesDiv.innerHTML = jobnotes.join("<br/>\n");
+  //this.jobNotesDiv.innerHTML = jobnotes.join("<br/>\n");
 };
 
 BYUScriptGen.prototype.generateScriptPBS = function () {
-	this.retrieveValues();
+  this.retrieveValues();
 
-	var scr = "#!/bin/bash\n\n#Submit this script with: qsub thefilename\n\n";
-	var walltime = "walltime=" + this.inputs.wallhours.value + ":" + this.inputs.wallmins.value + ":" + this.inputs.wallsecs.value;
-	var procs = "procs=" + this.values.num_cores;
+  var scr = "#!/bin/bash\n\n#Submit this script with: qsub thefilename\n\n";
+  var walltime = "walltime=" + this.inputs.wallhours.value + ":" + this.inputs.wallmins.value + ":" + this.inputs.wallsecs.value;
+  var procs = "procs=" + this.values.num_cores;
 
-	if(this.inputs.single_node.checked)
-		procs = "nodes=1:ppn=" + this.values.num_cores;
+  if(this.inputs.single_node.checked)
+    procs = "nodes=1:ppn=" + this.values.num_cores;
 
-	if(this.inputs.num_gpus.value > 0)
-		procs += ":gpus=" + this.inputs.num_gpus.value;
-	var features = "";
+  if(this.inputs.num_gpus.value > 0)
+    procs += ":gpus=" + this.inputs.num_gpus.value;
+  var features = "";
 
-	if(this.values.features.length > 0)
-		features = ",feature='" + this.values.features.join(",") + "'";
-	var qos = "";
+  if(this.values.features.length > 0)
+    features = ",feature='" + this.values.features.join(",") + "'";
+  var qos = "";
 
-	if(this.inputs.is_preemptable.checked)
-		qos = ",qos=" + this.settings.qos.preemptable;
-	else if(this.inputs.is_test.checked)
-		qos = ",qos=" + this.settings.qos.test;
-	scr += "#PBS -l " + procs + features + ",pmem=" + this.inputs.mem_per_core.value + this.inputs.mem_units.value + "," + walltime + qos + "\n";
+  if(this.inputs.is_preemptable.checked)
+    qos = ",qos=" + this.settings.qos.preemptable;
+  else if(this.inputs.is_test.checked)
+    qos = ",qos=" + this.settings.qos.test;
+  scr += "#PBS -l " + procs + features + ",pmem=" + this.inputs.mem_per_core.value + this.inputs.mem_units.value + "," + walltime + qos + "\n";
 
-	if(this.values.partitions.length > 0)
-		scr += "#PBS -q " + this.values.partitions[0] + "\n";
-	
-	if(this.inputs.job_name.value != "") {
-		scr += "#PBS -N " + this.inputs.job_name.value + "\n";
-	}
-	if(this.inputs.need_licenses.checked) {
-		var lics = new Array();
-		var show_lics = 0;
-		if(this.inputs.lic0_name.value != "" && this.inputs.lic0_count.value > 0) {
-			lics.push(this.inputs.lic0_name.value + "+" + this.inputs.lic0_count.value);
-			show_lics = 1;
-		}
-		if(this.inputs.lic1_name.value != "" && this.inputs.lic1_count.value > 0) {
-			lics.push(this.inputs.lic1_name.value + "+" + this.inputs.lic1_count.value);
-			show_lics = 1;
-		}
-		if(this.inputs.lic2_name.value != "" && this.inputs.lic2_count.value > 0) {
-			lics.push(this.inputs.lic2_name.value + "+" + this.inputs.lic2_count.value);
-			show_lics = 1;
-		}
-		if(show_lics)
-			scr += "#PBS -W x=GRES:" + lics.join("%") + "   #format: lic1_name+lic1_count%lic2_name+lic2_count\n";
-	}
+  if(this.values.partitions.length > 0)
+    scr += "#PBS -q " + this.values.partitions[0] + "\n";
 
-	if(this.inputs.email_begin.checked || this.inputs.email_end.checked || this.inputs.email_abort.checked) {
-		var emailletters = [];
-		if(this.inputs.email_begin.checked)
-			emailletters.push("b");
-		if(this.inputs.email_end.checked)
-			emailletters.push("e");
-		if(this.inputs.email_abort.checked)
-			emailletters.push("a");
-		scr += "#PBS -m " + emailletters.join("") + "\n";
-		scr += "#PBS -M " + this.inputs.email_address.value + "\n";
-		if(this.inputs.email_address.value == this.settings.defaults.email_address)
-			scr += "echo \"$USER: Please change the -M option to your real email address before submitting. Then remove this line.\"; exit 1\n";
-	}
+  if(this.inputs.job_name.value != "") {
+    scr += "#PBS -N " + this.inputs.job_name.value + "\n";
+  }
+  if(this.inputs.need_licenses.checked) {
+    var lics = new Array();
+    var show_lics = 0;
+    if(this.inputs.lic0_name.value != "" && this.inputs.lic0_count.value > 0) {
+      lics.push(this.inputs.lic0_name.value + "+" + this.inputs.lic0_count.value);
+      show_lics = 1;
+    }
+    if(this.inputs.lic1_name.value != "" && this.inputs.lic1_count.value > 0) {
+      lics.push(this.inputs.lic1_name.value + "+" + this.inputs.lic1_count.value);
+      show_lics = 1;
+    }
+    if(this.inputs.lic2_name.value != "" && this.inputs.lic2_count.value > 0) {
+      lics.push(this.inputs.lic2_name.value + "+" + this.inputs.lic2_count.value);
+      show_lics = 1;
+    }
+    if(show_lics)
+      scr += "#PBS -W x=GRES:" + lics.join("%") + "   #format: lic1_name+lic1_count%lic2_name+lic2_count\n";
+  }
 
-	var requeueable = this.inputs.is_requeueable.checked ? "#PBS -r y    # Job can be requeued if it is preempted\n" : "";
-	scr += requeueable;
+  if(this.inputs.email_begin.checked || this.inputs.email_end.checked || this.inputs.email_abort.checked) {
+    var emailletters = [];
+    if(this.inputs.email_begin.checked)
+      emailletters.push("b");
+    if(this.inputs.email_end.checked)
+      emailletters.push("e");
+    if(this.inputs.email_abort.checked)
+      emailletters.push("a");
+    scr += "#PBS -m " + emailletters.join("") + "\n";
+    scr += "#PBS -M " + this.inputs.email_address.value + "\n";
+    if(this.inputs.email_address.value == this.settings.defaults.email_address)
+      scr += "echo \"$USER: Please change the -M option to your real email address before submitting. Then remove this line.\"; exit 1\n";
+  }
 
-	if(this.inputs.in_group.checked) {
-		scr += "\n# Set the output permissions on the .oJOBID and .eJOBID files to be 0660 (owner and group can read/write but not others)\n";
-		scr += "#PBS -W umask=0007\n";
-		scr += "\n# Set the group ownership on the .oJOBID and .eJOBID files to be '" + this.inputs.group_name.value +"'\n";
-		scr += "#PBS -W group_list=" + this.inputs.group_name.value + "\n";
-		scr += "\n# Set the output permissions on files written from my script to be 0660 and directories to be 0770 (owner and group can read/write but not others)\n";
-		scr += "umask 0007\n";
-	}
-	scr += "\n# LOAD MODULES, INSERT CODE, AND RUN YOUR PROGRAMS HERE\n";
+  var requeueable = this.inputs.is_requeueable.checked ? "#PBS -r y    # Job can be requeued if it is preempted\n" : "";
+  scr += requeueable;
 
-	return scr;
+  if(this.inputs.in_group.checked) {
+    scr += "\n# Set the output permissions on the .oJOBID and .eJOBID files to be 0660 (owner and group can read/write but not others)\n";
+    scr += "#PBS -W umask=0007\n";
+    scr += "\n# Set the group ownership on the .oJOBID and .eJOBID files to be '" + this.inputs.group_name.value +"'\n";
+    scr += "#PBS -W group_list=" + this.inputs.group_name.value + "\n";
+    scr += "\n# Set the output permissions on files written from my script to be 0660 and directories to be 0770 (owner and group can read/write but not others)\n";
+    scr += "umask 0007\n";
+  }
+  scr += "\n# LOAD MODULES, INSERT CODE, AND RUN YOUR PROGRAMS HERE\n";
+
+  return scr;
 };
 
 
 BYUScriptGen.prototype.generateScriptSLURM = function () {
-	var pbscompat = true;
-	var pmemmb;
-	var procs;
-	var features = "";
+  var pbscompat = true;
+  var pmemmb;
+  var procs;
+  var features = "";
 
-	var scr = "#!/bin/bash\n\n#Submit this script with: sbatch thefilename\n\n";
-	var sbatch = function sbatch(txt) {
-		scr += "#SBATCH " + txt + "\n";
-	};
-	
-	sbatch("--time=" + this.inputs.wallhours.value + ":" + this.inputs.wallmins.value + ":" + this.inputs.wallsecs.value + "   # walltime");
-	
-	var procs;
-	sbatch("--ntasks=" + this.values.num_cores + "   # number of processor cores (i.e. tasks)");
-	if(this.inputs.single_node.checked) {
-		sbatch("--nodes=1   # number of nodes");
-	}
+  var scr = "#!/bin/bash\n\n#Submit this script with: sbatch thefilename\n\n";
+  var sbatch = function sbatch(txt) {
+    scr += "#SBATCH " + txt + "\n";
+  };
 
-	if(this.inputs.num_gpus.value > 0) {
-		sbatch("--gres=gpu:" + this.inputs.num_gpus.value);
-	}
+  sbatch("--time=" + this.inputs.wallhours.value + ":" + this.inputs.wallmins.value + ":" + this.inputs.wallsecs.value + "   # walltime");
 
-	if(this.values.features.length > 0) {
-		var features = this.values.features.join("&");
-		sbatch("-C '" + features + "'   # features syntax (use quotes): -C 'a&b&c&d'");
-	}
-	if(this.values.partitions.length > 0) {
-		var partitions = this.values.partitions.join(",");
-		sbatch("-p " + partitions + "   # partition(s)");
-	}
+  var procs;
+  sbatch("--ntasks=" + this.values.num_cores + "   # number of processor cores (i.e. tasks)");
+  if(this.inputs.single_node.checked) {
+    sbatch("--nodes=1   # number of nodes");
+  }
 
-	sbatch("--mem-per-cpu=" + this.inputs.mem_per_core.value + this.inputs.mem_units.value.substr(0,1) + "   # memory per CPU core");
+  if(this.inputs.num_gpus.value > 0) {
+    sbatch("--gres=gpu:" + this.inputs.num_gpus.value);
+  }
 
-	if(this.inputs.job_name.value && this.inputs.job_name.value != "") {
-		sbatch("-J \"" + this.inputs.job_name.value + "\"   # job name");
-	}
-	
-	if(this.inputs.email_begin.checked || this.inputs.email_end.checked || this.inputs.email_abort.checked) {
-		sbatch("--mail-user=" + this.values.email_address + "   # email address");
-		if(this.inputs.email_address.value == this.settings.defaults.email_address)
-			scr += "echo \"$USER: Please change the --mail-user option to your real email address before submitting. Then remove this line.\"; exit 1\n";
-		if(this.inputs.email_begin.checked)
-			sbatch("--mail-type=BEGIN");
-		if(this.inputs.email_end.checked)
-			sbatch("--mail-type=END");
-		if(this.inputs.email_abort.checked)
-			sbatch("--mail-type=FAIL");
-	}
-	if(this.inputs.is_preemptable.checked)
-		sbatch("--qos=" + this.settings.qos.preemptable);
-	else if(this.inputs.is_test.checked)
-		sbatch("--qos=" + this.settings.qos.test);
-	if(this.inputs.is_requeueable.checked)
-		sbatch("--requeue   #requeue when preempted and on node failure");
-	if(this.inputs.need_licenses.checked) {
-		var lics = new Array();
-		var show_lics = 0;
-		if(this.inputs.lic0_name.value != "" && this.inputs.lic0_count.value > 0) {
-			lics.push(this.inputs.lic0_name.value + ":" + this.inputs.lic0_count.value);
-			show_lics = 1;
-		}
-		if(this.inputs.lic1_name.value != "" && this.inputs.lic1_count.value > 0) {
-			lics.push(this.inputs.lic1_name.value + ":" + this.inputs.lic1_count.value);
-			show_lics = 1;
-		}
-		if(this.inputs.lic2_name.value != "" && this.inputs.lic2_count.value > 0) {
-			lics.push(this.inputs.lic2_name.value + ":" + this.inputs.lic2_count.value);
-			show_lics = 1;
-		}
-		if(show_lics)
-			sbatch("--licenses=" + lics.join(",") + "   #format: lic1_name:lic1_count,lic2_name:lic2_count");
-	}
-	if(this.inputs.in_group.checked) {
-		sbatch("--gid=" + this.inputs.group_name.value);
-	}
+  if(this.values.features.length > 0) {
+    var features = this.values.features.join("&");
+    sbatch("-C '" + features + "'   # features syntax (use quotes): -C 'a&b&c&d'");
+  }
+  if(this.values.partitions.length > 0) {
+    var partitions = this.values.partitions.join(",");
+    sbatch("-p " + partitions + "   # partition(s)");
+  }
+
+  sbatch("--mem-per-cpu=" + this.inputs.mem_per_core.value + this.inputs.mem_units.value.substr(0,1) + "   # memory per CPU core");
+
+  if(this.inputs.job_name.value && this.inputs.job_name.value != "") {
+    sbatch("-J \"" + this.inputs.job_name.value + "\"   # job name");
+  }
+
+  if(this.inputs.email_begin.checked || this.inputs.email_end.checked || this.inputs.email_abort.checked) {
+    sbatch("--mail-user=" + this.values.email_address + "   # email address");
+    if(this.inputs.email_address.value == this.settings.defaults.email_address)
+      scr += "echo \"$USER: Please change the --mail-user option to your real email address before submitting. Then remove this line.\"; exit 1\n";
+    if(this.inputs.email_begin.checked)
+      sbatch("--mail-type=BEGIN");
+    if(this.inputs.email_end.checked)
+      sbatch("--mail-type=END");
+    if(this.inputs.email_abort.checked)
+      sbatch("--mail-type=FAIL");
+  }
+  if(this.inputs.is_preemptable.checked)
+    sbatch("--qos=" + this.settings.qos.preemptable);
+  else if(this.inputs.is_test.checked)
+    sbatch("--qos=" + this.settings.qos.test);
+  if(this.inputs.is_requeueable.checked)
+    sbatch("--requeue   #requeue when preempted and on node failure");
+  if(this.inputs.need_licenses.checked) {
+    var lics = new Array();
+    var show_lics = 0;
+    if(this.inputs.lic0_name.value != "" && this.inputs.lic0_count.value > 0) {
+      lics.push(this.inputs.lic0_name.value + ":" + this.inputs.lic0_count.value);
+      show_lics = 1;
+    }
+    if(this.inputs.lic1_name.value != "" && this.inputs.lic1_count.value > 0) {
+      lics.push(this.inputs.lic1_name.value + ":" + this.inputs.lic1_count.value);
+      show_lics = 1;
+    }
+    if(this.inputs.lic2_name.value != "" && this.inputs.lic2_count.value > 0) {
+      lics.push(this.inputs.lic2_name.value + ":" + this.inputs.lic2_count.value);
+      show_lics = 1;
+    }
+    if(show_lics)
+      sbatch("--licenses=" + lics.join(",") + "   #format: lic1_name:lic1_count,lic2_name:lic2_count");
+  }
+  if(this.inputs.in_group.checked) {
+    sbatch("--gid=" + this.inputs.group_name.value);
+  }
 
 
-	scr += "\n\n# LOAD MODULES, INSERT CODE, AND RUN YOUR PROGRAMS HERE\n";
-	return scr;
+  scr += "\n\n# LOAD MODULES, INSERT CODE, AND RUN YOUR PROGRAMS HERE\n";
+  return scr;
 };
 
 function stackTrace() {
@@ -525,9 +525,9 @@ function stackTrace() {
 }
 
 BYUScriptGen.prototype.updateJobscript = function() {
-	this.retrieveValues();
-	this.toJobScript();
-	return;
+  this.retrieveValues();
+  this.toJobScript();
+  return;
 };
 
 BYUScriptGen.prototype.init = function() {
@@ -564,23 +564,24 @@ BYUScriptGen.prototype.init = function() {
 };
 
 BYUScriptGen.prototype.toJobScript = function() {
-	var schedformat = byu_sg_script_format_selector.options[byu_sg_script_format_selector.selectedIndex].value;
-	var scr;
-	switch(schedformat) {
-		case "slurm" :
-			scr = this.generateScriptSLURM();
-			break;
-		case "pbs" :
-			scr = this.generateScriptPBS();
-			break;
-	}
-	this.jobScriptDiv.innerHTML = "<textarea readonly rows=15 cols=60>" + scr + "</textarea>";
+  //var schedformat = byu_sg_script_format_selector.options[byu_sg_script_format_selector.selectedIndex].value;
+  var schedformat = "slurm"
+  var scr;
+  switch(schedformat) {
+    case "slurm" :
+      scr = this.generateScriptSLURM();
+      break;
+    case "pbs" :
+      scr = this.generateScriptPBS();
+      break;
+  }
+  this.jobScriptDiv.innerHTML = "<textarea readonly rows=15 cols=60>" + scr + "</textarea>";
 };
 
-document.querySelector("copyButton").onclick = function(){
-	document.querySelector("textarea").select();
-	document.navigator.clipboard.writeText();
-};
+// document.querySelector("copyButton").onclick = function(){
+// 	document.querySelector("textarea").select();
+// 	document.navigator.clipboard.writeText();
+// };
 
 function emailAddressChange(){
 	//alert(document.getElementById('email_input').disabled)
