@@ -24,8 +24,8 @@ with open("sinfo.csv") as file: #csv format
               if attrib_list[5] == "N/A":
                     node.load = 0
               else:
-                    node.load = 0
-              #      node.load = (float( attrib_list[5]) / float(node.cores))
+                    node.load = (float( attrib_list[5]) / float(node.cores))
+                    node.load = round (node.load,3)
               node.partition = attrib_list[6]
 
               # if node.state == "down":
