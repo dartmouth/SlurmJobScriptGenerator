@@ -196,16 +196,14 @@ BYUScriptGen.prototype.createForm = function(doc) {
 	this.inputs.email_begin = this.newCheckbox({checked:0});
 	this.inputs.email_end = this.newCheckbox({checked:0});
 	this.inputs.email_abort = this.newCheckbox({checked:0});
-	//this.inputs.email_address = this.newInput({value:this.settings.defaults.email_address});
-	this.inputs.email_address = document.createElement('div')
-	this.inputs.email_address.innerHTML=`<input type="radio" id="email_self" name="fav_language" value="email_self" checked onclick="emailAddressChange()" >
+  this.inputs.email_address = this.newInput({value:this.settings.defaults.email_address});
+	this.inputs.email_address_box = document.createElement('div')
+	this.inputs.email_address_box.innerHTML=`<input type="radio" id="email_self" name="fav_language" value="email_self" checked onclick="emailAddressChange()" >
 	<label for="own">Use my email address</label>
 	<input type="radio" id="email_alternate" name="fav_language" value="email_alternate" onclick="emailAddressChange()" >
-	<label for="alternate">Use alternate email address</label><br>
-	<input type="text" disabled id ="email_input"></input> `
-	
-	
-
+	<label for="alternate">Use alternate email address</label><br> `
+  //<input type="text" disabled id ="email_input"></input> 
+	this.inputs.email_address_box.appendChild(this.inputs.email_address);
 
 
 
@@ -213,7 +211,8 @@ BYUScriptGen.prototype.createForm = function(doc) {
   table.appendChild(this.returnNewRow("byu_sg_row_numcores", "Number of processor cores <b>across all nodes</b>: ", this.inputs.num_cores));
   table.appendChild(this.returnNewRow("byu_sg_row_numgpus", "Number of GPUs: ", this.inputs.num_gpus));
   table.appendChild(this.returnNewRow("byu_sg_row_mempercore", "Memory per processor core: ", this.newSpan(null, this.inputs.mem_per_core, this.inputs.mem_units)));
-  table.appendChild(this.returnNewRow("byu_sg_row_walltime", `Walltime: <i style='color:black; font-size:20px' data-bs-toggle='popover' data-bs-content="${window.WALLTIME_TOOLTIP}" data-bs-placement='top' class='bi bi-question-square'></i>`, this.newSpan(null, this.inputs.wallhours, " hours ", this.inputs.wallmins, " mins ", this.inputs.wallsecs, " secs")));
+//  table.appendChild(this.returnNewRow("byu_sg_row_walltime", `Walltime: <i style='color:black; font-size:20px' data-bs-toggle='popover' data-bs-content="${window.WALLTIME_TOOLTIP}" data-bs-placement='top' class='bi bi-question-square'></i>`, this.newSpan(null, this.inputs.wallhours, " hours ", this.inputs.wallmins, " mins ", this.inputs.wallsecs, " secs")));
+  table.appendChild(this.returnNewRow("byu_sg_row_walltime", "Walltime: <i style='color:black; font-size:20px' data-bs-toggle='popover' data-bs-title='Walltime is so cool!!' data-bs-content=\"<a href='https://rc.dartmouth.edu'>More about Walltime here</a>\" data-bs-placement='top' class='bi bi-question-square'></i>", this.newSpan(null, this.inputs.wallhours, " hours ", this.inputs.wallmins, " mins ", this.inputs.wallsecs, " secs")));
   table.appendChild(this.returnNewRow("byu_sg_row_testjob", "Job is a <b>test</b> job: ", this.inputs.is_test));
   table.appendChild(this.returnNewRow("byu_sg_row_preemptable", "Job is preemptable: ", this.inputs.is_preemptable));
   table.appendChild(this.formrows["is_requeueable"] = this.returnNewRow("byu_sg_row_requeueable", "Job is requeueable: ", this.inputs.is_requeueable));
