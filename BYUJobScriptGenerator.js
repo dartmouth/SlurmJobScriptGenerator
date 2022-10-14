@@ -209,41 +209,41 @@ BYUScriptGen.prototype.createForm = function(doc) {
 
 
 
-	table.appendChild(this.returnNewRow("byu_sg_row_onenode", "Limit this job to one node: ", this.inputs.single_node));
-	table.appendChild(this.returnNewRow("byu_sg_row_numcores", "Number of processor cores <b>across all nodes</b>: ", this.inputs.num_cores));
-	table.appendChild(this.returnNewRow("byu_sg_row_numgpus", "Number of GPUs: ", this.inputs.num_gpus));
-	table.appendChild(this.returnNewRow("byu_sg_row_mempercore", "Memory per processor core: ", this.newSpan(null, this.inputs.mem_per_core, this.inputs.mem_units)));
-	table.appendChild(this.returnNewRow("byu_sg_row_walltime", "Walltime: ", this.newSpan(null, this.inputs.wallhours, " hours ", this.inputs.wallmins, " mins ", this.inputs.wallsecs, " secs")));
-	table.appendChild(this.returnNewRow("byu_sg_row_testjob", "Job is a <b>test</b> job: ", this.inputs.is_test));
-	table.appendChild(this.returnNewRow("byu_sg_row_preemptable", "Job is preemptable: ", this.inputs.is_preemptable));
-	table.appendChild(this.formrows["is_requeueable"] = this.returnNewRow("byu_sg_row_requeueable", "Job is requeueable: ", this.inputs.is_requeueable));
-	this.formrows["is_requeueable"].style.display = "none";
-	table.appendChild(this.returnNewRow("byu_sg_row_fsgroup", "I am in a file sharing group and my group members need <br/>to read/modify my output files: ", this.inputs.in_group));
-	table.appendChild(this.formrows["group_name"] = this.returnNewRow("byu_sg_row_fsgroupname", "Group name (case sensitive): ", this.inputs.group_name));
-	this.formrows["group_name"].style.display = "none";
-	table.appendChild(this.returnNewRow("byu_sg_row_needlicenses", "Need licenses? ", this.inputs.need_licenses));
-	table.appendChild(this.formrows["licenses"] = this.returnNewRow("byu_sg_row_licenses",
-					"Licenses: ", this.newSpan(	null,
-									"Name ", this.inputs.lic0_name, " Count ", this.inputs.lic0_count, br(),
-									"Name ", this.inputs.lic1_name, " Count ", this.inputs.lic1_count, br(),
-									"Name ", this.inputs.lic2_name, " Count ", this.inputs.lic2_count
-								)
-					)
-	);
-	this.formrows["licenses"].style.display = "none";
-	table.appendChild(this.returnNewRow("byu_sg_row_jobname", "Job name: ", this.inputs.job_name));
-	table.appendChild(this.returnNewRow("byu_sg_row_emailevents", "Receive email for job events: ", 
-				this.newSpan(	null,
-						this.inputs.email_begin,
-						" begin ",
-						this.inputs.email_end,
-						" end ",
-						this.inputs.email_abort,
-						" abort"
-					    )
-			 )
-	);
-	table.appendChild(this.returnNewRow("byu_sg_row_emailaddress", "Email address: ", this.inputs.email_address));
+  table.appendChild(this.returnNewRow("byu_sg_row_onenode", "Limit this job to one node: ", this.inputs.single_node));
+  table.appendChild(this.returnNewRow("byu_sg_row_numcores", "Number of processor cores <b>across all nodes</b>: ", this.inputs.num_cores));
+  table.appendChild(this.returnNewRow("byu_sg_row_numgpus", "Number of GPUs: ", this.inputs.num_gpus));
+  table.appendChild(this.returnNewRow("byu_sg_row_mempercore", "Memory per processor core: ", this.newSpan(null, this.inputs.mem_per_core, this.inputs.mem_units)));
+  table.appendChild(this.returnNewRow("byu_sg_row_walltime", "Walltime: <i style='color:black; font-size:20px' data-bs-toggle='popover' data-bs-title='Walltime is so cool!!' data-bs-content=\"<a href='https://rc.dartmouth.edu'>More about Walltime here</a>\" data-bs-placement='top' class='bi bi-question-square'></i>", this.newSpan(null, this.inputs.wallhours, " hours ", this.inputs.wallmins, " mins ", this.inputs.wallsecs, " secs")));
+  table.appendChild(this.returnNewRow("byu_sg_row_testjob", "Job is a <b>test</b> job: ", this.inputs.is_test));
+  table.appendChild(this.returnNewRow("byu_sg_row_preemptable", "Job is preemptable: ", this.inputs.is_preemptable));
+  table.appendChild(this.formrows["is_requeueable"] = this.returnNewRow("byu_sg_row_requeueable", "Job is requeueable: ", this.inputs.is_requeueable));
+  this.formrows["is_requeueable"].style.display = "none";
+  table.appendChild(this.returnNewRow("byu_sg_row_fsgroup", "I am in a file sharing group and my group members need <br/>to read/modify my output files: ", this.inputs.in_group));
+  table.appendChild(this.formrows["group_name"] = this.returnNewRow("byu_sg_row_fsgroupname", "Group name (case sensitive): ", this.inputs.group_name));
+  this.formrows["group_name"].style.display = "none";
+  table.appendChild(this.returnNewRow("byu_sg_row_needlicenses", "Need licenses? ", this.inputs.need_licenses));
+  table.appendChild(this.formrows["licenses"] = this.returnNewRow("byu_sg_row_licenses",
+          "Licenses: ", this.newSpan(  null,
+                  "Name ", this.inputs.lic0_name, " Count ", this.inputs.lic0_count, br(),
+                  "Name ", this.inputs.lic1_name, " Count ", this.inputs.lic1_count, br(),
+                  "Name ", this.inputs.lic2_name, " Count ", this.inputs.lic2_count
+                )
+          )
+  );
+  this.formrows["licenses"].style.display = "none";
+  table.appendChild(this.returnNewRow("byu_sg_row_jobname", "Job name: ", this.inputs.job_name));
+  table.appendChild(this.returnNewRow("byu_sg_row_emailevents", "Receive email for job events: ",
+        this.newSpan(  null,
+            this.inputs.email_begin,
+            " begin ",
+            this.inputs.email_end,
+            " end ",
+            this.inputs.email_abort,
+            " abort"
+              )
+       )
+  );
+  table.appendChild(this.returnNewRow("byu_sg_row_emailaddress", "Email address: ", this.inputs.email_address));
 
 	this.inputs.features = [];
 	if(this.settings.features.show) {
