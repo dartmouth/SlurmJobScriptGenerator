@@ -1,0 +1,1 @@
+window.WALLTIME_TOOLTIP="<a href='https://rc.dartmouth.edu'>More about Walltime here. This is new content</a>"
