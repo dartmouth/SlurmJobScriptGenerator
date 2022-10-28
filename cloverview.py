@@ -26,10 +26,12 @@ with open("sinfo.csv") as file: #csv format
               else:
                     node.load = (float( attrib_list[5]) / float(node.cores))
                     node.load = round (node.load,3)
-              node.partition = attrib_list[6]
+              #node.partition = attrib_list[6]
+              node.gres = attrib_list[6]
+              _, node.idlecores, *_ = attrib_list[7].split("/") 
 
               # if node.state == "down":
-              if node.state in("down","down*"):
+              # if node.state in("down","down*"):
                  # node.color="black"
               # elif node.load<=.5:
                  # node.color='blue'
@@ -42,7 +44,7 @@ with open("sinfo.csv") as file: #csv format
               # else:
                  # node.color='red'
               # print(node.name," is in group", node.group, "and is ",node.state," and load is ",node.load," and  color is ", node.color)
-                node_list.append(node.__dict__)
+              node_list.append(node.__dict__)
               encoded_data = json.dumps( node_list )
               print(encoded_data)
  
