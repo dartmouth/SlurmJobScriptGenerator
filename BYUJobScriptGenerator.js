@@ -144,11 +144,20 @@ BYUScriptGen.prototype.newSpan = function() {
 };
 
 BYUScriptGen.prototype.newA = function(url, body) {
-  var a = document.createElement("a");
-  a.href = url;
-  a.appendChild(document.createTextNode(body));
-  a.target = "_base";
-  return a;
+  // var a = document.createElement("a");
+  // a.href = url;
+  // a.appendChild(document.createTextNode(body));
+  // a.target = "_base";
+  // return a;
+  var i = document.createElement("i");
+  i.style = 'color:black; font-size:20px';
+  i.data_bs_toggle = 'popover';
+  i.data_bs_title = 'Intel Xeon E5-2690';
+  i.data_bs_content = "<a href='https://services.dartmouth.edu/TDClient/1806/Portal/KB/ArticleDet?ID=134058'>More information about CPUs here</a>";
+  i.data_bs_placement = 'top';
+  i.class = 'bi bi-question-square';
+  //i.innerHTML="<i style='color:black; font-size:20px' data-bs-toggle='popover' data-bs-title='Intel Xeon E5-2690' data-bs-content=\"<a href='https://services.dartmouth.edu/TDClient/1806/Portal/KB/ArticleDet?ID=134058'>More information about CPUs here</a>\" data-bs-placement='top' class='bi bi-question-square'></i>"
+  return i;
 }
 
 BYUScriptGen.prototype.createForm = function(doc) {
@@ -254,7 +263,7 @@ BYUScriptGen.prototype.createForm = function(doc) {
 			var url = this.newA(this.settings.features.info_base_url + this.settings.features.names[i], "?");
 			var feature_container = this.newSpan(null);
 			feature_container.className = "byu_sg_input_feature_container";
-			var name_span = this.newSpan("byu_sg_input_feature_" + new_checkbox.feature_name, new_checkbox, this.settings.features.names[i] + " [", url, "]");
+			var name_span = this.newSpan("byu_sg_input_feature_" + new_checkbox.feature_name, new_checkbox, this.settings.features.names[i] + " ", url);
 			name_span.className = "byu_sg_input_feature_name";
 			feature_container.appendChild(name_span);
 			if(this.settings.features_status && this.settings.features_status[this.settings.features.names[i]]) {
