@@ -1,0 +1,17 @@
+.
+###############################
+get-cluster_status
+###############################
+# starting with: list of cells from node.cell info
+# we need total and avail [nodes,mem,cores]for each cell for the form
+
+for each $cell:
+       create array of nodes with their attributes
+       cell.total_nodes =  count (cell.nodes)
+       cell.avail_nodes =  count (cell.nodes where cell.node.state=(idle|mixed) 
+
+       cell.total_mem = sum(cell.node.mem)
+       cell.avail_mem = sum(cell.node.free_mem)
+       cell.total_cores = sum(cell.node.cores) 
+       cell.avail_cores =  sum (cell.node.idle_cores)
+
